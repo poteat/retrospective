@@ -1,5 +1,5 @@
 {
-  "name": "retrospective-chain",
+  "name": "retrospective",
   "version": "1.0.1",
   "description": "A utility library for retrospective functions and types.",
   "main": "./dist/src/index.js",
