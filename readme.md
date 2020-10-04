@@ -6,11 +6,15 @@
 
 ## Installation
 
+Install from npm:
+
 ```sh
 npm i retrospective
 ```
 
 ### Usage
+
+The workhorse function is `reduceChain`, which collapses the given retrospective chain into an underlying function that can be executed:
 
 ```ts
 import reduceChain, { RetrospectiveChain } from "retrospective-chain"
