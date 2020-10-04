@@ -85,6 +85,14 @@ const result = reduceChain(chain, x => x)(5) // 26
 
 ---
 
+## Trees of Execution
+
+An interesting use-case is whereby individual executor functions call multiple instances of their `next` function: this creates branching trees of execution, where for the case of N executors calling their `next` functions M times, creates N ^ M unique branches.
+
+This pattern is used for e.g. coordinating parallel asynchronous processing, perform graph search, backtracking methods, etc. If each executor layer memoizes itself, this pattern forms the basis of a very robust algorithmic engine.
+
+---
+
 ## Contribution
 
 This library is probably rather feature-complete, but feel free to open a PR if there's anything I missed.
