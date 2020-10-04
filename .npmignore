@@ -4,8 +4,9 @@
 .eslintrc.json
 
 # Don't need configuration files
-jest.config.json
+jest.config.js
 tsconfig.json
+tsconfig.eslint.json
 webpack.config.js
 
 # Don't need temporary build files
