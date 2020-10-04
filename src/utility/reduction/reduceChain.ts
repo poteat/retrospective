@@ -1,5 +1,5 @@
+import { ReduceChainType } from "../../types/core/ReduceChainType";
 import { RetrospectiveFunction } from "../../types/RetrospectiveFunction";
-import { curryChainElement } from "../currying/curryChainElement";
 
 /**
  * Given a retrospective chain, and optionally the base nullary implementor,
@@ -13,18 +13,22 @@ import { curryChainElement } from "../currying/curryChainElement";
  * The purpose of the nullary implementor is to fill an "execution hole", and is
  * the `next` function associated with the otherwise lowest executor function.
  */
-export const reduceChain = <
-  ChainTypeBaseParameters extends unknown[],
-  ChainTypeReturnType extends unknown,
+export const reduceChain = (<
+  ChainTypeBaseParameters extends any[],
+  ChainTypeReturnType extends any,
   ChainType extends RetrospectiveFunction<
-    (...x: ChainTypeBaseParameters[]) => ChainTypeReturnType
+    (...x: ChainTypeBaseParameters) => ChainTypeReturnType
   >
 >(
-  chain: ChainType[],
+  chain: readonly ChainType[],
   identity: (...x: ChainTypeBaseParameters) => ChainTypeReturnType
 ) => (...parameters: ChainTypeBaseParameters) =>
   chain.reduceRight(
     (previousCallback, callback) =>
-      (curryChainElement(callback) as any)(previousCallback),
-    identity
-  )(...parameters);
+      (<ChainType extends (...x: any[]) => any>(
+        f: (_f: ChainType, ...x: Parameters<ChainType>) => ReturnType<ChainType>
+      ) => (_f: ChainType) => (...x: Parameters<ChainType>) => f(_f, ...x))(
+        callback
+      )(previousCallback),
+    identity ?? (<T>(x: T) => x)
+  )(...parameters)) as ReduceChainType;
