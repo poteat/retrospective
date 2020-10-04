@@ -1,13 +1,13 @@
-# Retrospective Chains 🔗🔗🔗
+![retrospective](./logo/retrospective.png)
 
-A utility library to work with retrospective functions (aka next-chain-style functions) and types.
+> A chaining library to work with retrospective functions (_aka next-chain-style_) and types.
 
 ---
 
 ## Installation
 
 ```sh
-npm i retrospective-chain
+npm i retrospective
 ```
 
 ### Usage
@@ -27,7 +27,7 @@ const result = reduceChain(chain, x => x)(5) // 26
 
 ---
 
-## Motivation
+## Introduction
 
 A retrospective function is a function which takes another function with an identical signature as itself (sans the parameter under discussion, i.e. the resultant type is non-recursive) as its first parameter:
 
@@ -38,9 +38,9 @@ export type RetrospectiveFunction<F extends (...args: any) => any> = (
 ) => ReturnType<F>;
 ```
 
-This pattern is useful in some situations where you're expecting to perform a homogeneously typed operation on some set of data multiple times, as with a series of transformations, or point-free programming. As well, this pattern works very well with async-promises.
+This pattern is useful in situations where you're expecting to perform a homogeneously typed operation on some set of data multiple times, e.g. a series of transformations, point-free code, etc. As well, this pattern works very well with async promises.
 
-Here's an example of how you might use it to perform sequential transformations on a number:
+Here's an example of how you might use it to perform a set of sequential transformations on a number:
 
 ```ts
 type MyNumberTransformer = (x: number) => number
@@ -55,6 +55,8 @@ The above sequence roughly corresponds to the function `x ** 2 + 1`, but it divi
 
 This abstraction becomes useful for series of complicated, potentially asynchronous actions where you want higher chain elements to potentially preclude lower chain elements (or run them multiple times, catch errors, etc.).
 
+You can bypass the homogeneous type requirement by having each executor operate on a large pre-typed context space, and then collapse individual results at the end. This corresponds to the pipeline pattern.
+
 ### Etymology
 
 Next-chain functions are nothing new - but since there are many conflicting
@@ -68,7 +70,7 @@ with the following attributes:
 
 ## Execution
 
-Retrospective chains are executed by first using the `reduceChain` utility - you also need to pass in the "identity" function corresponding to the type transformation you are using. Essentially, this is just the most internally-executed element and does not take in the `next` parameter:
+Retrospective chains are executed by first using the `reduceChain` utility - you also need to pass in the identity function corresponding to the type transformation you are using. Essentially, this is just the most internally-executed element and does not take in the `next` parameter:
 
 ```ts
 type MyNumberTransformer = (x: number) => number

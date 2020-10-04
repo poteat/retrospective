@@ -21,10 +21,10 @@ export const reduceChain = <
   >
 >(
   chain: ChainType[],
-  nullary: (...x: ChainTypeBaseParameters) => ChainTypeReturnType
+  identity: (...x: ChainTypeBaseParameters) => ChainTypeReturnType
 ) => (...parameters: ChainTypeBaseParameters) =>
   chain.reduceRight(
     (previousCallback, callback) =>
       (curryChainElement(callback) as any)(previousCallback),
-    nullary
+    identity
   )(...parameters);
