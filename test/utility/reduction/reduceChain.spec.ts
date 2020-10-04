@@ -2,6 +2,7 @@ import { RetrospectiveChain } from "../../../src";
 import { reduceChain } from "../../../src/utility/reduction/reduceChain";
 
 type NumberTransform = (x: number) => number;
+type VoidTransform = (s: string) => void;
 
 describe("basic arithmetic cases", () => {
   it("empty tuple with identity is just identity", () => {
@@ -38,3 +39,12 @@ describe("basic arithmetic cases", () => {
     expect(reduced(5)).toStrictEqual(50);
   });
 });
+
+describe("void cases", () => {
+  it("can handle void return", () => {
+    const chain: RetrospectiveChain<VoidTransform> = []
+    const reduced = reduceChain(chain, () => {})
+
+    expect(reduced("foob")).toBe(undefined)
+  })
+})
