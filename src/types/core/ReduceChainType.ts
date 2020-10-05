@@ -155,9 +155,9 @@ export interface ReduceChainType {
       Parameters<ChainType[number]>[0]
     >
       ? ChainType
-      : ReturnType<
-      Parameters<ChainType[number]>[0]
-    > extends void ? ChainType : TypeErrorMetaLiterals["needIdentityFunction"]
+      : ReturnType<Parameters<ChainType[number]>[0]> extends void
+      ? ChainType
+      : TypeErrorMetaLiterals["needIdentityFunction"]
   ): Parameters<ChainType[number]>[0];
 
   <ChainType extends GenericRetrospectiveChain>(
